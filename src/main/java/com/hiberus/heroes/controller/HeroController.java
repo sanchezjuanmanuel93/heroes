@@ -1,6 +1,7 @@
 package com.hiberus.heroes.controller;
 
 
+import com.hiberus.heroes.dto.HeroDTO;
 import com.hiberus.heroes.model.Hero;
 import com.hiberus.heroes.service.IHeroService;
 import lombok.AllArgsConstructor;
@@ -23,9 +24,6 @@ public class HeroController {
     @GetMapping()
     public ResponseEntity<Collection<Hero>> findAll() {
         log.info("::: findAll Heroes execution :::");
-        Hero hero = new Hero();
-        hero.setName("Juanma");
-        heroService.save(hero);
         Collection<Hero> heroes = heroService.findAll();
         return new ResponseEntity<>(heroes, HttpStatus.OK);
     }
@@ -43,9 +41,11 @@ public class HeroController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping
-    public ResponseEntity<Hero> update(@Valid @RequestBody Hero hero) {
-        Hero heroUpdated = heroService.save(hero);
-        return new ResponseEntity<>(heroUpdated, HttpStatus.OK);
+    @PutMapping("/{id}")
+    public ResponseEntity<Hero> update(@RequestParam Long id, @Valid @RequestBody HeroDTO heroDTO) {
+        Hero hero = heroService.findById(id)
+                .orElseThrow(() -> new NullPointerException());
+        hero.setName(heroDTO.getName());
+        return ResponseEntity.ok().body(heroService.save(hero));
     }
 }
