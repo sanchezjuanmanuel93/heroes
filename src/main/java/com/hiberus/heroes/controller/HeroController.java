@@ -2,6 +2,7 @@ package com.hiberus.heroes.controller;
 
 
 import com.hiberus.heroes.dto.HeroDTO;
+import com.hiberus.heroes.expection.NotFoundException;
 import com.hiberus.heroes.model.Hero;
 import com.hiberus.heroes.service.IHeroService;
 import lombok.AllArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 import java.util.Collection;
 
 @RestController
@@ -35,16 +37,16 @@ public class HeroController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@RequestParam Long id) {
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         Hero hero = heroService.findById(id).orElseThrow();
         heroService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Hero> update(@RequestParam Long id, @Valid @RequestBody HeroDTO heroDTO) {
+    public ResponseEntity<Hero> update(@PathVariable Long id, @Valid @RequestBody HeroDTO heroDTO) {
         Hero hero = heroService.findById(id)
-                .orElseThrow(() -> new NullPointerException());
+                .orElseThrow(() -> new NotFoundException(Hero.class.getName()));
         hero.setName(heroDTO.getName());
         return ResponseEntity.ok().body(heroService.save(hero));
     }
