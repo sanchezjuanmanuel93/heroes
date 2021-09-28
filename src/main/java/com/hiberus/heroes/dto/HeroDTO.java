@@ -15,7 +15,7 @@ import javax.validation.constraints.Size;
 public class HeroDTO {
 
     @NotBlank
-    @Size(min = 3, max = 50)
+    @Size(min = 1, max = 50)
     private String name;
 
 }
