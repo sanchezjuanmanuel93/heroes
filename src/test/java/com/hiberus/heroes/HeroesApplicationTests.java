@@ -1,13 +1,9 @@
 package com.hiberus.heroes;
 
-import org.junit.jupiter.api.Test;
+import com.hiberus.heroes.mapper.HeroMapperImpl;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+@SpringBootTest(classes = {HeroMapperImpl.class})
 class HeroesApplicationTests {
-
-	@Test
-	void contextLoads() {
-	}
 
 }

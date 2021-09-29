@@ -1,20 +1,20 @@
 package com.hiberus.heroes.service;
 
-import com.hiberus.heroes.model.Hero;
+import com.hiberus.heroes.dto.HeroDTO;
 
 import java.util.Collection;
 import java.util.Optional;
 
 public interface IHeroService {
 
-    Collection<Hero> findAll();
+    Collection<HeroDTO> findAll();
 
-    Optional<Hero> findById(Long id);
+    Optional<HeroDTO> findById(Long id);
 
-    Optional<Hero> findByName(String id);
+    Collection<HeroDTO> findByName(String name);
 
     void deleteById(Long id);
 
-    Hero save(Hero hero);
+    HeroDTO save(HeroDTO hero);
 
 }
