@@ -40,7 +40,7 @@ public class HeroService implements IHeroService {
 
     @Override
     public Collection<HeroDTO> findByName(String name) {
-        return heroRepository.findByName(name).stream()
+        return heroRepository.findByNameIsContaining(name).stream()
                 .map(hero -> heroMapper.heroToHeroDTO(hero))
                 .collect(Collectors.toList());
     }

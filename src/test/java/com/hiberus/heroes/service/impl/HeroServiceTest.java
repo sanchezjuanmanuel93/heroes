@@ -49,7 +49,7 @@ public class HeroServiceTest {
 
     @Test
     void shouldReturnHeroByName() {
-        when(heroRepository.findByName(HERO_FIND_BY_NAME_TEST)).thenReturn(this.generateHeroList());
+        when(heroRepository.findByNameIsContaining(HERO_FIND_BY_NAME_TEST)).thenReturn(this.generateHeroList());
 
         Collection<HeroDTO> heroes = heroService.findByName(HERO_FIND_BY_NAME_TEST);
         assertThat(heroes.size()).isEqualTo(3);

@@ -55,7 +55,7 @@ public class HeroController {
     }
 
     @GetMapping("/name/{name}")
-    public ResponseEntity<Collection<HeroDTO>> findByEmail(@PathVariable String name) {
+    public ResponseEntity<Collection<HeroDTO>> findByName(@PathVariable String name) {
         log.info("::: findByName Heroes execution :::");
         Collection<HeroDTO> heroes = heroService.findByName(name);
         return new ResponseEntity<>(heroes, HttpStatus.OK);
