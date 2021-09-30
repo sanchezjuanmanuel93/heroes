@@ -7,6 +7,9 @@ import com.hiberus.heroes.repository.HeroRepository;
 import com.hiberus.heroes.service.IHeroService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -16,12 +19,14 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@CacheConfig(cacheNames = "hero")
 public class HeroService implements IHeroService {
 
     private final HeroRepository heroRepository;
     private final HeroMapper heroMapper;
 
     @Override
+    @Cacheable(key = "{ #root.methodName }")
     public Collection<HeroDTO> findAll() {
         return heroRepository.findAll().stream()
                 .map(hero -> heroMapper.heroToHeroDTO(hero))
@@ -29,6 +34,7 @@ public class HeroService implements IHeroService {
     }
 
     @Override
+    @Cacheable(key = "{ #root.methodName, #id }")
     public Optional<HeroDTO> findById(Long id) {
         Optional<Hero> hero = heroRepository.findById(id);
         if (Boolean.FALSE.equals(hero.isPresent())) {
@@ -39,6 +45,7 @@ public class HeroService implements IHeroService {
     }
 
     @Override
+    @Cacheable(key = "{ #root.methodName, #name }")
     public Collection<HeroDTO> findByName(String name) {
         return heroRepository.findByNameIsContaining(name).stream()
                 .map(hero -> heroMapper.heroToHeroDTO(hero))
@@ -46,13 +53,15 @@ public class HeroService implements IHeroService {
     }
 
     @Override
-    public void deleteById(Long id) {
-        heroRepository.deleteById(id);
+    @CacheEvict(key = "{ #root.methodName }" , allEntries = true)
+    public void delete(HeroDTO hero) {
+        heroRepository.delete(heroMapper.heroDTOtoHero(hero));
     }
 
     @Override
+    @CacheEvict(key = "{ #root.methodName }", allEntries = true)
     public HeroDTO save(HeroDTO heroDto) {
-        Hero hero = Hero.builder().name(heroDto.getName()).description(heroDto.getDescription()).build();
+        Hero hero = heroMapper.heroDTOtoHero(heroDto);
         return heroMapper.heroToHeroDTO(heroRepository.save(hero));
     }
 

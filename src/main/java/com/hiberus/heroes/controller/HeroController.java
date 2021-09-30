@@ -29,6 +29,13 @@ public class HeroController {
         return new ResponseEntity<>(heroes, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<HeroDTO> findById(@PathVariable Long id) {
+        log.info("::: find Hero by Id execution :::");
+        HeroDTO hero = heroService.findById(id).orElseThrow(() -> new NotFoundException(Hero.class.getName()));
+        return new ResponseEntity<>(hero, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<HeroDTO> save(@Valid @RequestBody HeroDTO heroDTO) {
         log.info("::: save Heroes execution :::");
@@ -40,7 +47,7 @@ public class HeroController {
     public ResponseEntity<?> delete(@PathVariable Long id) {
         log.info("::: delete Heroes execution :::");
         HeroDTO hero = heroService.findById(id).orElseThrow(() -> new NotFoundException(Hero.class.getName()));
-        heroService.deleteById(id);
+        heroService.delete(hero);
         return ResponseEntity.noContent().build();
     }
 
