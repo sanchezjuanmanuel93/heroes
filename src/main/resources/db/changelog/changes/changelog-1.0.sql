@@ -5,6 +5,6 @@
 CREATE TABLE heroes (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   name VARCHAR(45) NOT NULL,
-  description VARCHAR(255) NULL,
+  description VARCHAR(500) NULL,
   PRIMARY KEY (id)
   );

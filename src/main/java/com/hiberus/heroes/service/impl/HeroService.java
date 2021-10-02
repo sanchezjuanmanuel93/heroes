@@ -12,10 +12,12 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Transactional
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -53,7 +55,7 @@ public class HeroService implements IHeroService {
     }
 
     @Override
-    @CacheEvict(key = "{ #root.methodName }" , allEntries = true)
+    @CacheEvict(key = "{ #root.methodName }", allEntries = true)
     public void delete(HeroDTO hero) {
         heroRepository.delete(heroMapper.heroDTOtoHero(hero));
     }
@@ -62,6 +64,7 @@ public class HeroService implements IHeroService {
     @CacheEvict(key = "{ #root.methodName }", allEntries = true)
     public HeroDTO save(HeroDTO heroDto) {
         Hero hero = heroMapper.heroDTOtoHero(heroDto);
+        hero.getPowerstats().setHero(hero);
         return heroMapper.heroToHeroDTO(heroRepository.save(hero));
     }
 
