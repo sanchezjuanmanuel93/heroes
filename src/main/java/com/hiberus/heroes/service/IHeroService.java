@@ -13,7 +13,7 @@ public interface IHeroService {
 
     Collection<HeroDTO> findByName(String name);
 
-    void deleteById(Long id);
+    void delete(HeroDTO hero);
 
     HeroDTO save(HeroDTO hero);
 

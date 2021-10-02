@@ -9,10 +9,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Transactional
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -40,19 +42,21 @@ public class HeroService implements IHeroService {
 
     @Override
     public Collection<HeroDTO> findByName(String name) {
-        return heroRepository.findByName(name).stream()
+        return heroRepository.findByNameIsContaining(name).stream()
                 .map(hero -> heroMapper.heroToHeroDTO(hero))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public void deleteById(Long id) {
-        heroRepository.deleteById(id);
+    public void delete(HeroDTO heroDTO) {
+        Hero hero = heroMapper.heroDTOtoHero(heroDTO);
+        heroRepository.delete(hero);
     }
 
     @Override
     public HeroDTO save(HeroDTO heroDto) {
-        Hero hero = Hero.builder().name(heroDto.getName()).description(heroDto.getDescription()).build();
+        Hero hero = heroMapper.heroDTOtoHero(heroDto);
+        hero.getPowerstats().setHero(hero);
         return heroMapper.heroToHeroDTO(heroRepository.save(hero));
     }
 

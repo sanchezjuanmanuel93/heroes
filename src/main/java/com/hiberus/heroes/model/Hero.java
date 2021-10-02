@@ -25,4 +25,7 @@ public class Hero {
     @Column
     private String description;
 
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "hero", optional = false)
+    private Powerstats powerstats;
+
 }

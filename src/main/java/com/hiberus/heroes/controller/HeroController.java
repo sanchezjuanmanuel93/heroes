@@ -40,7 +40,7 @@ public class HeroController {
     public ResponseEntity<?> delete(@PathVariable Long id) {
         log.info("::: delete Heroes execution :::");
         HeroDTO hero = heroService.findById(id).orElseThrow(() -> new NotFoundException(Hero.class.getName()));
-        heroService.deleteById(id);
+        heroService.delete(hero);
         return ResponseEntity.noContent().build();
     }
 
@@ -49,9 +49,8 @@ public class HeroController {
         log.info("::: update Heroes execution :::");
         HeroDTO heroUpdate = heroService.findById(id)
                 .orElseThrow(() -> new NotFoundException(Hero.class.getName()));
-        heroUpdate.setName(heroDTO.getName());
-        heroUpdate.setDescription(heroDTO.getDescription());
-        return ResponseEntity.ok().body(heroService.save(heroUpdate));
+        heroDTO.setId(id);
+        return ResponseEntity.ok().body(heroService.save(heroDTO));
     }
 
     @GetMapping("/name/{name}")
