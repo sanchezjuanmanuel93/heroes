@@ -51,6 +51,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter implement
                 .antMatchers(HttpMethod.GET, "/api/**").hasAnyRole("ADMIN", "USER")
                 .antMatchers(HttpMethod.POST, "/api/**").hasAnyRole("ADMIN", "USER")
                 .antMatchers("/api/**").hasRole("ADMIN")
+                .antMatchers("/actuator/**").hasRole("ADMIN")
                 .anyRequest().fullyAuthenticated();
         http.exceptionHandling().accessDeniedHandler((request, response, accessDeniedException) -> {
             AccessDeniedHandler defaultAccessDeniedHandler = new AccessDeniedHandlerImpl();

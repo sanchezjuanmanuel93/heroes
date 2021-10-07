@@ -32,5 +32,8 @@ docker run -p 8080:8080 heroes-api.jar
 
 * H2 console: [http://localhost:8080/h2](http://localhost:8080/h2)
 * Swagger: [http://localhost:8080/swagger-ui/](http://localhost:8080/swagger-ui/)
+* Actuator: [http://localhost:8080/actuator/](http://localhost:8080/swagger-ui/)
+* Actuator Cache: [http://localhost:8080/actuator/caches](http://localhost:8080/swagger-ui/)
+* Actuator Health: [http://localhost:8080/actuator/health](http://localhost:8080/swagger-ui/)
 
 
