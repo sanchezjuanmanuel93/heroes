@@ -15,7 +15,7 @@ public class CacheConfig {
         return new CacheManagerCustomizer<ConcurrentMapCacheManager>() {
             @Override
             public void customize(ConcurrentMapCacheManager cacheManager) {
-                cacheManager.setAllowNullValues(false);
+                cacheManager.setAllowNullValues(true);
             }
         };
     }

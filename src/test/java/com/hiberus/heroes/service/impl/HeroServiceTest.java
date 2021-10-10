@@ -63,10 +63,6 @@ public class HeroServiceTest {
         return heroes;
     }
 
-    private HeroDTO generateHeroDto() {
-        return HeroDTO.builder().id(HERO_ID_TEST).name(HERO_NAME_TEST).description(HERO_DESCRIPTION_TEST).build();
-    }
-
     private Hero generateHero() {
         return Hero.builder().id(HERO_ID_TEST).name(HERO_NAME_TEST).description(HERO_DESCRIPTION_TEST).build();
     }

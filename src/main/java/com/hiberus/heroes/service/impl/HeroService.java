@@ -42,7 +42,6 @@ public class HeroService implements IHeroService {
         if (Boolean.FALSE.equals(hero.isPresent())) {
             return Optional.empty();
         }
-
         return Optional.ofNullable(heroMapper.heroToHeroDTO(hero.get()));
     }
 
@@ -67,6 +66,5 @@ public class HeroService implements IHeroService {
         hero.getPowerstats().setHero(hero);
         return heroMapper.heroToHeroDTO(heroRepository.save(hero));
     }
-
 
 }

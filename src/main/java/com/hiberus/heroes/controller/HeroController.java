@@ -40,7 +40,7 @@ public class HeroController {
     public ResponseEntity<HeroDTO> save(@Valid @RequestBody HeroDTO heroDTO) {
         log.info("::: save Heroes execution :::");
         HeroDTO hero = heroService.save(heroDTO);
-        return new ResponseEntity<>(hero, HttpStatus.OK);
+        return new ResponseEntity<>(hero, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
