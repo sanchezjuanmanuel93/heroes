@@ -118,6 +118,16 @@ class HeroControllerTest {
                 .andReturn();
     }
 
+    @Test
+    void findBestHero() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                .get("/api/heroes/best")
+                .with(user("admin").password("admin"))
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
+
     private HeroDTO generateHeroDto() {
         return HeroDTO.builder()
                 .name("HERO_NAME_TEST")

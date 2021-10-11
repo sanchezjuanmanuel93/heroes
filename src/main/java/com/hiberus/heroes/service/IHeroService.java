@@ -17,4 +17,6 @@ public interface IHeroService {
 
     HeroDTO save(HeroDTO hero);
 
+    Optional<HeroDTO> findBestHero();
+
 }

@@ -9,7 +9,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.Collection;
@@ -65,5 +72,13 @@ public class HeroController {
         log.info("::: findByName Heroes execution :::");
         Collection<HeroDTO> heroes = heroService.findByName(name);
         return new ResponseEntity<>(heroes, HttpStatus.OK);
+    }
+
+    @GetMapping("/best")
+    public ResponseEntity<HeroDTO> findBestHero() {
+        log.info("::: find best Hero execution :::");
+        HeroDTO hero = heroService.findBestHero()
+                .orElseThrow(() -> new NotFoundException(Hero.class.getName()));
+        return new ResponseEntity<>(hero, HttpStatus.OK);
     }
 }

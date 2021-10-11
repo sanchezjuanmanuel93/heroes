@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -65,6 +66,14 @@ public class HeroService implements IHeroService {
         Hero hero = heroMapper.heroDTOtoHero(heroDto);
         hero.getPowerstats().setHero(hero);
         return heroMapper.heroToHeroDTO(heroRepository.save(hero));
+    }
+
+    @Override
+    @Cacheable(key = "{ #root.methodName, #name }")
+    public Optional<HeroDTO> findBestHero() {
+        return heroRepository.findAll().stream()
+                .max(Comparator.comparing(Hero::getTotalPower))
+                .map(hero -> heroMapper.heroToHeroDTO(hero));
     }
 
 }
