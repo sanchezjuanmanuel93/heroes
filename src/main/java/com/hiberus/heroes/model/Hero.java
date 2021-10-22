@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 
 @Getter
@@ -40,10 +41,11 @@ public class Hero {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "hero", optional = false)
     private Powerstats powerstats;
 
-    public Integer getTotalPower() {
-        return
-                this.powerstats.getIntelligence() + this.powerstats.getStrength() + this.powerstats.getSpeed()
-                        + this.powerstats.getDurability() + this.powerstats.getPower() + this.powerstats.getCombat();
-    }
+    @Transient
+    private Integer totalPower;
 
+    public Integer getTotalPower() {
+        return this.powerstats.getIntelligence() + this.powerstats.getStrength() + this.powerstats.getSpeed()
+                + this.powerstats.getDurability() + this.powerstats.getPower() + this.powerstats.getCombat();
+    }
 }
